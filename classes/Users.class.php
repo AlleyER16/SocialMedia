@@ -33,6 +33,29 @@
 
         }
 
+        public function user_exists_by_auth($username, $password){
+
+            //sanitizing variables
+            $username = $this->SanitizeVariable($username);
+            $password = $this->SanitizeVariable($password);
+
+            //operations
+            $sql = "SELECT * FROM ".self::USERS_TABLE." WHERE Username = ? AND Password = ?";
+            $prepared_statement = $this->db_object->prepare($sql);
+            $prepared_statement->execute([$username, $password]);
+
+            if($prepared_statement->rowCount() == 1){
+
+                return [true, $prepared_statement->fetchAll()[0]];
+
+            }else{
+
+                return [false];
+
+            }
+
+        }
+
         public function add_user($full_name, $gender, $date_of_birth, $telephone, $username, $password){
 
             //sanitizing variables
@@ -44,10 +67,10 @@
             $password = $this->SanitizeVariable($password);
 
             //operations
-            $sql = "INSERT INTO ".self::USERS_TABLE."(FullName, Gender, DateOfBirth, Telephone, Username, Password) VALUES(?, ?, ?, ?, ?, ?)";
+            $sql = "INSERT INTO ".self::USERS_TABLE."(FullName, Gender, DateOfBirth, Telephone, Username, Password, OnlineStatus, Timestamp) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
             $prepared_statement = $this->db_object->prepare($sql);
 
-            if($prepared_statement->execute([$product_name, ($product_price != "") ? $product_price : NULL, $sold_in_stocks, ($stock != "") ? $stock : NULL, time()])){
+            if($prepared_statement->execute([$full_name, $gender, $date_of_birth, $telephone, $username, $password, 1, time()])){
                 return [true, $this->db_object->lastInsertId()];
             }else{
                 return [false];
@@ -55,18 +78,18 @@
 
         }
 
-        public function update_product_datum($product_id, $datum_key, $new_value){
+        public function update_user_datum($user_id, $datum_key, $new_value){
 
             //sanitizing variables
-            $product_id = $this->SanitizeVariable($product_id);
+            $user_id = $this->SanitizeVariable($user_id);
             $datum_key = $this->SanitizeVariable($datum_key);
             $new_value = $this->SanitizeVariable($new_value);
 
             //operations
-            $sql = "UPDATE ".self::PRODUCTS_TABLE." SET $datum_key = ? WHERE ProductID = ?";
+            $sql = "UPDATE ".self::USERS_TABLE." SET $datum_key = ? WHERE UserID = ?";
             $prepared_statement = $this->db_object->prepare($sql);
 
-            return $prepared_statement->execute([$new_value, $product_id]);
+            return $prepared_statement->execute([$new_value, $user_id]);
 
         }
 
