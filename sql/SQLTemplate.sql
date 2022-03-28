@@ -18,8 +18,8 @@ CREATE TABLE friends(
     User2 INT NOT NULL,
     Status ENUM("0", "1") NOT NULL,
     Timestamp INT NOT NULL,
-    FOREIGN KEY User1 REFERENCES users(UserID),
-    FOREIGN KEY User2 REFERENCES users(UserID)
+    FOREIGN KEY (User1) REFERENCES users(UserID),
+    FOREIGN KEY (User2) REFERENCES users(UserID)
 )Engine=INNODB;
 
 CREATE TABLE friendrequests(
@@ -27,9 +27,9 @@ CREATE TABLE friendrequests(
     User INT NOT NULL,
     RequestedBy INT NOT NULL,
     Timestamp INT NOT NULL,
-    FOREIGN KEY User REFERENCES users(UserID),
-    FOREIGN KEY RequestedBy REFERENCES users(UserID),
-    UNIQUE(UserID, RequestedBy)
+    FOREIGN KEY (User) REFERENCES users(UserID),
+    FOREIGN KEY (RequestedBy) REFERENCES users(UserID),
+    UNIQUE(User, RequestedBy)
 )Engine=INNODB;
 
 CREATE TABLE removed(
@@ -37,26 +37,28 @@ CREATE TABLE removed(
     User INT NOT NULL,
     UserRemoved INT NOT NULL,
     Timestamp INT NOT NULL,
-    FOREIGN KEY User REFERENCES users(UserID),
-    FOREIGN KEY UserRemoved REFERENCES users(UserID),
-    UNIQUE(UserID, UserRemoved)
+    FOREIGN KEY (User) REFERENCES users(UserID),
+    FOREIGN KEY (UserRemoved) REFERENCES users(UserID),
+    UNIQUE(User, UserRemoved)
 )Engine=INNODB;
 
 CREATE TABLE posts(
     PostID INT PRIMARY KEY AUTO_INCREMENT,
     PostTitle VARCHAR(50)  NOT NULL,
     PostBody VARCHAR(1000) NOT NULL,
+    MediaType ENUM("Image", "Video", "Audio") NULL,
+    Media VARCHAR(100) NULL,
     Timestamp INT NOT NULL,
     CreatedBy INT NOT NULL,
-    FOREIGN KEY CreatedBy REFERENCES users(UserID)
+    FOREIGN KEY (CreatedBy) REFERENCES users(UserID)
 )Engine=INNODB;
 
 CREATE TABLE postloves(
     Post INT NOT NULL,
     LovedBy INT NOT NULL,
     Timestamp INT NOT NULL,
-    FOREIGN KEY Post REFERENCES posts(PostID),
-    FOREIGN KEY LovedBy REFERENCES users(UserID),
+    FOREIGN KEY (Post) REFERENCES posts(PostID),
+    FOREIGN KEY (LovedBy) REFERENCES users(UserID),
     PRIMARY KEY (Post, LovedBy)
 )Engine=INNODB;
 
@@ -65,8 +67,8 @@ CREATE TABLE postcomments(
     CommentBy INT NOT NULL,
     Comment VARCHAR(200) NOT NULL,
     Timestamp INT NOT NULL,
-    FOREIGN KEY Post REFERENCES posts(PostID),
-    FOREIGN KEY CommentBy REFERENCES users(UserID),
+    FOREIGN KEY (Post) REFERENCES posts(PostID),
+    FOREIGN KEY (CommentBy) REFERENCES users(UserID),
     PRIMARY KEY (Post, CommentBy)
 )Engine=INNODB;
 
@@ -78,7 +80,7 @@ CREATE TABLE chat(
     Message VARCHAR(500) NOT NULL,
     ReadStatus ENUM("0", "1") NOT NULL,
     Timestamp INT NOT NULL,
-    FOREIGN KEY FriendID REFERENCES friends(ID),
-    FOREIGN KEY MessageFrom REFERENCES users(UserID),
-    FOREIGN KEY MessageTo REFERENCES users(UserID)
+    FOREIGN KEY (FriendID) REFERENCES friends(ID),
+    FOREIGN KEY (MessageFrom) REFERENCES users(UserID),
+    FOREIGN KEY (MessageTo) REFERENCES users(UserID)
 )Engine=INNODB;
