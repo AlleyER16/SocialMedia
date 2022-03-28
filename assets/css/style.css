@@ -1,0 +1,283 @@
+.centered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.welcome
+{
+    margin-top: 10%;
+}
+.divider
+{
+    background-color: black;
+}
+div.scrollmenulink {
+    overflow: auto;
+    white-space: nowrap;
+}
+
+div.scrollmenulink a {
+    display: inline-block;
+    color: white;
+    text-align: center;
+    padding: 5px;
+    text-decoration: none;
+    width: 25%;
+}
+
+div.scrollmenulink a:hover {
+    background-color: #777;
+}
+
+div.dscrollmenu
+{
+    overflow: auto;
+    white-space: nowrap;
+}
+div.dscrollmenu span
+{
+    display: inline-block;
+    width: 70%;
+}
+
+div.scrollmenuround {
+    overflow: auto;
+    white-space: nowrap;
+}
+
+div.scrollmenuround span {
+    display: inline-block;
+    width: 25%;
+}
+
+.bottom-right {
+	position: absolute;
+    bottom: 0px;
+    right: 0px;
+}
+
+.bottom-right1 {
+	position: absolute;
+    bottom: 0px;
+    right: 16px;
+}
+
+.left_bar{
+    position: fixed;
+    left: 0;
+    height: 100%;
+}
+.left_fill{
+    display: block;
+}
+.main_content{
+    display: block;
+}
+.space_division{
+    display: block;
+}
+.ads_section{
+    position: fixed;
+    left: 58.33%;
+    height: 100%;
+    overflow: scroll
+}
+.chat_section{
+    position: fixed;
+    right: 0;
+    height: 100%;
+}
+.custom_text_area{
+    width: 100%;
+    margin: 0px;
+    border: none;
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+    .left_bar{
+        display: none;
+    }
+    .left_fill{
+        display: none;
+    }
+    .main_content{
+        display: block;
+    }
+    .space_division{
+        display: none;
+    }
+    .ads_section{
+        display: none;
+    }
+    .chat_section{
+        display: none;
+    }
+    .custom_navbar{
+        display: none;
+    }
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+    .left_bar{
+        display: none;
+    }
+    .left_fill{
+        display: none;
+    }
+    .main_content{
+        display: block;
+    }
+    .space_division{
+        display: none;
+    }
+    .ads_section{
+        display: none;
+    }
+    .chat_section{
+        display: block;
+    }
+    .custom_navbar{
+        display: block;
+    }
+    .t_disp_none{
+        display: none;
+    }
+    .mobile_menu{
+        display: none;
+    }
+    .mobile_navbar{
+        display: none;
+    }
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+    .left_bar{
+        display: block;
+    }
+    .left_fill{
+        display: block;
+    }
+    .main_content{
+        display: block;
+    }
+    .space_division{
+        display: block;
+    }
+    .ads_section{
+        display: block;
+    }
+    .chat_section{
+        display: block;
+    }
+    .custom_navbar{
+        display: block;
+    }
+    .t_disp_none{
+        display: block;
+    }
+    .mobile_menu{
+        display: none;
+    }
+    .mobile_navbar{
+        display: none;
+    }
+}
+
+#mobile_menu{
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    color: white;
+    z-index: 9;
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+    .chat_show{
+        display: block;
+    }
+    .chat_hide{
+        display: none;
+    }
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+    .friends_view{
+        position: fixed;
+        left: 0;
+        height: 100%;
+        overflow: scroll;
+    }
+    .chat_view{
+        position: fixed;
+        right: 0;
+        height: 100%;
+        overflow: scroll;
+    }
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+    .friends_view{
+        position: fixed;
+        left: 0;
+        height: 100%;
+        overflow: scroll;
+    }
+    .chat_view{
+        position: fixed;
+        right: 0;
+        height: 100%;
+        overflow: scroll;
+    }
+}
+
+#show_loading{
+    position: fixed;
+    top: 10%;
+    width: 100%;
+    z-index: 20;
+    display: none;
+}
+
+#show_operation_message{
+    position: fixed;
+    top: 10%;
+    width: 100%;
+    z-index: 20;
+    display: none;
+}
+
+@media only screen and (min-width: 768px){
+    .form-div{
+        border: 1px solid white;
+    }
+}
+
+@media only screen and (max-width: 767px){
+    .form-div{
+        border: none;
+    }
+    .m-disp-none{
+        display: none;
+    }
+}
