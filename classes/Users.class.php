@@ -33,6 +33,43 @@
 
         }
 
+        public function add_user($full_name, $gender, $date_of_birth, $telephone, $username, $password){
+
+            //sanitizing variables
+            $full_name = $this->SanitizeVariable($full_name);
+            $gender = $this->SanitizeVariable($gender);
+            $date_of_birth = $this->SanitizeVariable($date_of_birth);
+            $telephone = $this->SanitizeVariable($telephone);
+            $username = $this->SanitizeVariable($username);
+            $password = $this->SanitizeVariable($password);
+
+            //operations
+            $sql = "INSERT INTO ".self::USERS_TABLE."(FullName, Gender, DateOfBirth, Telephone, Username, Password) VALUES(?, ?, ?, ?, ?, ?)";
+            $prepared_statement = $this->db_object->prepare($sql);
+
+            if($prepared_statement->execute([$product_name, ($product_price != "") ? $product_price : NULL, $sold_in_stocks, ($stock != "") ? $stock : NULL, time()])){
+                return [true, $this->db_object->lastInsertId()];
+            }else{
+                return [false];
+            }
+
+        }
+
+        public function update_product_datum($product_id, $datum_key, $new_value){
+
+            //sanitizing variables
+            $product_id = $this->SanitizeVariable($product_id);
+            $datum_key = $this->SanitizeVariable($datum_key);
+            $new_value = $this->SanitizeVariable($new_value);
+
+            //operations
+            $sql = "UPDATE ".self::PRODUCTS_TABLE." SET $datum_key = ? WHERE ProductID = ?";
+            $prepared_statement = $this->db_object->prepare($sql);
+
+            return $prepared_statement->execute([$new_value, $product_id]);
+
+        }
+
         // public function get_num_search_products($search_keyword){
         //
         //     //sanitizing variables
@@ -132,40 +169,6 @@
         //
         // }
         //
-        // public function add_product($product_name, $sold_in_stocks, $product_price, $stock){
-        //
-        //     //sanitizing variables
-        //     $product_name = $this->SanitizeVariable($product_name);
-        //     $sold_in_stocks = $this->SanitizeVariable($sold_in_stocks);
-        //     $product_price = $this->SanitizeVariable($product_price);
-        //     $stock = $this->SanitizeVariable($stock);
-        //
-        //     //operations
-        //     $sql = "INSERT INTO ".self::PRODUCTS_TABLE."(ProductName, ProductPrice, SoldInStocks, Stock, RecordTimestamp) VALUES(?, ?, ?, ?, ?)";
-        //     $prepared_statement = $this->db_object->prepare($sql);
-        //
-        //     if($prepared_statement->execute([$product_name, ($product_price != "") ? $product_price : NULL, $sold_in_stocks, ($stock != "") ? $stock : NULL, time()])){
-        //         return [true, $this->db_object->lastInsertId()];
-        //     }else{
-        //         return [false];
-        //     }
-        //
-        // }
-        //
-        // public function update_product_datum($product_id, $datum_key, $new_value){
-        //
-        //     //sanitizing variables
-        //     $product_id = $this->SanitizeVariable($product_id);
-        //     $datum_key = $this->SanitizeVariable($datum_key);
-        //     $new_value = $this->SanitizeVariable($new_value);
-        //
-        //     //operations
-        //     $sql = "UPDATE ".self::PRODUCTS_TABLE." SET $datum_key = ? WHERE ProductID = ?";
-        //     $prepared_statement = $this->db_object->prepare($sql);
-        //
-        //     return $prepared_statement->execute([$new_value, $product_id]);
-        //
-        // }
         //
         // public function update_product_stock($product_id, $value, $type){
         //

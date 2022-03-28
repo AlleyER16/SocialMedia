@@ -8,7 +8,8 @@ CREATE TABLE users(
     Password VARCHAR(100) NOT NULL,
     ProfilePicture VARCHAR(200) NULL,
     CoverPhoto VARCHAR(200) NULL,
-    OnlineStatus Enum("0", "1") NOT NULL
+    OnlineStatus Enum("0", "1") NOT NULL,
+    Timestamp INT NOT NULL
 )Engine=INNODB;
 
 CREATE TABLE friends(
@@ -16,6 +17,7 @@ CREATE TABLE friends(
     User1 INT NOT NULL,
     User2 INT NOT NULL,
     Status ENUM("0", "1") NOT NULL,
+    Timestamp INT NOT NULL,
     FOREIGN KEY User1 REFERENCES users(UserID),
     FOREIGN KEY User2 REFERENCES users(UserID)
 )Engine=INNODB;
@@ -24,6 +26,7 @@ CREATE TABLE friendrequests(
     ID INT PRIMARY KEY AUTO_INCREMENT,
     User INT NOT NULL,
     RequestedBy INT NOT NULL,
+    Timestamp INT NOT NULL,
     FOREIGN KEY User REFERENCES users(UserID),
     FOREIGN KEY RequestedBy REFERENCES users(UserID),
     UNIQUE(UserID, RequestedBy)
@@ -33,6 +36,7 @@ CREATE TABLE removed(
     ID INT PRIMARY KEY AUTO_INCREMENT,
     User INT NOT NULL,
     UserRemoved INT NOT NULL,
+    Timestamp INT NOT NULL,
     FOREIGN KEY User REFERENCES users(UserID),
     FOREIGN KEY UserRemoved REFERENCES users(UserID),
     UNIQUE(UserID, UserRemoved)
@@ -42,8 +46,7 @@ CREATE TABLE posts(
     PostID INT PRIMARY KEY AUTO_INCREMENT,
     PostTitle VARCHAR(50)  NOT NULL,
     PostBody VARCHAR(1000) NOT NULL,
-    DateCreated DATE NOT NULL,
-    TimeCreated TIME NOT NULL,
+    Timestamp INT NOT NULL,
     CreatedBy INT NOT NULL,
     FOREIGN KEY CreatedBy REFERENCES users(UserID)
 )Engine=INNODB;
@@ -51,6 +54,7 @@ CREATE TABLE posts(
 CREATE TABLE postloves(
     Post INT NOT NULL,
     LovedBy INT NOT NULL,
+    Timestamp INT NOT NULL,
     FOREIGN KEY Post REFERENCES posts(PostID),
     FOREIGN KEY LovedBy REFERENCES users(UserID),
     PRIMARY KEY (Post, LovedBy)
@@ -60,6 +64,7 @@ CREATE TABLE postcomments(
     Post INT NOT NULL,
     CommentBy INT NOT NULL,
     Comment VARCHAR(200) NOT NULL,
+    Timestamp INT NOT NULL,
     FOREIGN KEY Post REFERENCES posts(PostID),
     FOREIGN KEY CommentBy REFERENCES users(UserID),
     PRIMARY KEY (Post, CommentBy)
@@ -72,8 +77,7 @@ CREATE TABLE chat(
     MessageTo INT NOT NULL,
     Message VARCHAR(500) NOT NULL,
     ReadStatus ENUM("0", "1") NOT NULL,
-    DateSent Date NOT NULL,
-    TimeSent Time NOT NULL,
+    Timestamp INT NOT NULL,
     FOREIGN KEY FriendID REFERENCES friends(ID),
     FOREIGN KEY MessageFrom REFERENCES users(UserID),
     FOREIGN KEY MessageTo REFERENCES users(UserID)
