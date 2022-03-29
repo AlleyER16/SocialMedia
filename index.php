@@ -8,7 +8,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>ABook</title>
+        <title>Social Media</title>
 
         <?php require_once "includes/meta.php" ?>
 

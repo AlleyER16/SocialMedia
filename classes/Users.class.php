@@ -5,6 +5,9 @@
     class Users extends Dbh{
 
         private const USERS_TABLE = "users";
+        private const REMOVED_TABLE = "removed";
+        private const FRIEND_REQUESTS_TABLE = "friendrequests";
+        private const FRIENDS_TABLE = "friends";
 
         public function __construct() {
             $this->db_object = $this->getConnection();
@@ -93,181 +96,224 @@
 
         }
 
-        // public function get_num_search_products($search_keyword){
-        //
-        //     //sanitizing variables
-        //     $search_keyword = $this->SanitizeVariable($search_keyword);
-        //
-        //     $search_keyword = "%$search_keyword%";
-        //
-        //     //operations
-        //     $sql = "SELECT COUNT(ProductID) as NumProducts FROM ".self::PRODUCTS_TABLE." WHERE ProductName LIKE ?";
-        //     $prepared_statement = $this->db_object->prepare($sql);
-        //     $prepared_statement->execute([$search_keyword]);
-        //
-        //     return $prepared_statement->fetchAll()[0]->NumProducts;
-        //
-        // }
-        //
-        // public function get_search_products_pagination($search_keyword, $division){
-        //
-        //     //operations
-        //     $num_search_products = $this->get_num_search_products($search_keyword);
-        //
-        //     $pages = floor($num_search_products/$division);
-        //
-        //     return (($num_search_products % $division) > 0) ? $pages + 1 : $pages;
-        //
-        // }
-        //
-        // public function get_search_products($search_keyword, $page, $division){
-        //
-        //     //sanitizing variables
-        //     $search_keyword = $this->SanitizeVariable($search_keyword);
-        //     $page = $this->SanitizeVariable($page);
-        //     $division = $this->SanitizeVariable($division);
-        //
-        //     $search_keyword = "%$search_keyword%";
-        //
-        //     $start = ($page - 1) * $division;
-        //
-        //     //operations
-        //     $sql = "SELECT * FROM ".self::PRODUCTS_TABLE." WHERE ProductName LIKE ? ORDER BY ProductID DESC LIMIT $start, $division";
-        //     $prepared_statement = $this->db_object->prepare($sql);
-        //     $prepared_statement->execute([$search_keyword]);
-        //
-        //     return $prepared_statement->fetchAll();
-        //
-        // }
-        //
-        // public function get_num_products(){
-        //
-        //     $sql = "SELECT COUNT(ProductID) as NumProducts FROM ".self::PRODUCTS_TABLE;
-        //     $prepared_statement = $this->db_object->prepare($sql);
-        //     $prepared_statement->execute([]);
-        //
-        //     return $prepared_statement->fetchAll()[0]->NumProducts;
-        //
-        // }
-        //
-        // public function get_products_pagination($division){
-        //
-        //     //operations
-        //     $num_products = $this->get_num_products();
-        //
-        //     $pages = floor($num_products/$division);
-        //
-        //     return (($num_products % $division) > 0) ? $pages + 1 : $pages;
-        //
-        // }
-        //
-        // public function get_products($page, $division){
-        //
-        //     //sanitizing variables
-        //     $page = $this->SanitizeVariable($page);
-        //     $division = $this->SanitizeVariable($division);
-        //
-        //     $start = ($page - 1) * $division;
-        //
-        //     //operations
-        //     $sql = "SELECT * FROM ".self::PRODUCTS_TABLE." ORDER BY ProductID DESC LIMIT $start, $division";
-        //     $prepared_statement = $this->db_object->prepare($sql);
-        //     $prepared_statement->execute([]);
-        //
-        //     return $prepared_statement->fetchAll();
-        //
-        // }
-        //
-        // public function get_transaction_products($transaction_id){
-        //
-        //     //sanitizing variables
-        //     $transaction_id = $this->SanitizeVariable($transaction_id);
-        //
-        //     //operations
-        //     $sql = "SELECT * FROM ".self::TRANSACTIONS_PRODUCTS_TABLE." WHERE Transaction = ?";
-        //     $prepared_statement = $this->db_object->prepare($sql);
-        //     $prepared_statement->execute([$transaction_id]);
-        //
-        //     return $prepared_statement->fetchAll();
-        //
-        // }
-        //
-        //
-        // public function update_product_stock($product_id, $value, $type){
-        //
-        //     //sanitizing variables
-        //     $product_id = $this->SanitizeVariable($product_id);
-        //     $value = $this->SanitizeVariable($value);
-        //     $type = $this->SanitizeVariable($type);
-        //
-        //     $operator = ($type == "increase") ? "+" : "-";
-        //
-        //     //operations
-        //     $sql = "UPDATE ".self::PRODUCTS_TABLE." SET Stock = Stock $operator ? WHERE ProductID = ?";
-        //     $prepared_statement = $this->db_object->prepare($sql);
-        //
-        //     return $prepared_statement->execute([$value, $product_id]);
-        //
-        // }
-        //
-        // public function delete_product($product_id){
-        //
-        //     //sanitiing variables
-        //     $product_id = $this->SanitizeVariable($product_id);
-        //
-        //     //operations
-        //     $sql = "DELETE FROM ".self::PRODUCTS_TABLE." WHERE ProductID = ?";
-        //     $prepared_statement = $this->db_object->prepare($sql);
-        //
-        //     return $prepared_statement->execute([$product_id]);
-        //
-        // }
-        //
-        // public function transaction_product_exists($transaction, $product){
-        //
-        //     //sanitizing variables
-        //     $transaction = $this->SanitizeVariable($transaction);
-        //     $product = $this->SanitizeVariable($product);
-        //
-        //     //operations
-        //     $sql = "DELETE FROM ".self::TRANSACTIONS_PRODUCTS_TABLE." WHERE Transaction = ? AND Product = ?";
-        //     $prepared_statement = $this->db_object->prepare($sql);
-        //     $prepared_statement->execute([$transaction, $product]);
-        //
-        //     return ($prepared_statement->rowCount() == 1);
-        //
-        // }
-        //
-        // public function add_transaction_product($transaction, $product, $quantity, $unit_price, $amount){
-        //
-        //     //sanitizing variables
-        //     $transaction = $this->SanitizeVariable($transaction);
-        //     $product = $this->SanitizeVariable($product);
-        //     $quantity = $this->SanitizeVariable($quantity);
-        //     $unit_price = $this->SanitizeVariable($unit_price);
-        //     $amount = $this->SanitizeVariable($amount);
-        //
-        //     //operations
-        //     $sql = "INSERT INTO ".self::TRANSACTIONS_PRODUCTS_TABLE."(Transaction, Product, Quantity, UnitPrice, Amount) VALUES(?, ?, ?, ?, ?)";
-        //     $prepared_statement = $this->db_object->prepare($sql);
-        //
-        //     return $prepared_statement->execute([$transaction, $product, ($quantity != "") ? $quantity : NULL, ($unit_price != "") ? $unit_price : NULL, $amount]);
-        //
-        // }
-        //
-        // public function delete_transaction_product($transaction, $product){
-        //
-        //     //sanitizing variables
-        //     $transaction = $this->SanitizeVariable($transaction);
-        //     $product = $this->SanitizeVariable($product);
-        //
-        //     //operations
-        //     $sql = "DELETE FROM ".self::TRANSACTIONS_PRODUCTS_TABLE." WHERE Transaction = ? AND Product = ?";
-        //     $prepared_statement = $this->db_object->prepare($sql);
-        //
-        //     return $prepared_statement->execute([$transaction, $product]);
-        //
-        // }
+        public function get_people_you_may_know($user_id){
+
+            //sanitizing vairiables
+            $user_id = $this->SanitizeVariable($user_id);
+
+            //operations
+            $sql = "SELECT * FROM ".self::USERS_TABLE." WHERE UserID != ? AND UserID NOT IN (SELECT User FROM ".self::FRIEND_REQUESTS_TABLE." WHERE RequestedBy = ?) AND UserID NOT IN (SELECT RequestedBy FROM ".self::FRIEND_REQUESTS_TABLE." WHERE User = ?) AND UserID NOT IN (SELECT User1 FROM ".self::FRIENDS_TABLE." WHERE User2 = ? AND Status = ?) AND UserID NOT IN (SELECT User2 FROM ".self::FRIENDS_TABLE." WHERE User1 = ? AND Status = ?) AND UserID NOT IN (SELECT UserRemoved FROM ".self::REMOVED_TABLE." WHERE User = ?) AND UserID NOT IN (SELECT User FROM ".self::REMOVED_TABLE." WHERE UserRemoved = ?)";
+            $prepared_statement = $this->db_object->prepare($sql);
+            $prepared_statement->execute([$user_id, $user_id, $user_id, $user_id, 1, $user_id, 1, $user_id, $user_id]);
+
+            return $prepared_statement->fetchAll();
+
+        }
+
+        public function friend_request_exists($user, $requested_by){
+
+            //sanitizing variables
+            $user = $this->SanitizeVariable($user);
+            $requested_by = $this->SanitizeVariable($requested_by);
+
+            //operations
+            $sql = "SELECT * FROM ".self::FRIEND_REQUESTS_TABLE." WHERE (User = ? AND RequestedBy = ?) OR (User = ? AND RequestedBy = ?)";
+            $prepared_statement = $this->db_object->prepare($sql);
+            $prepared_statement->execute([$user, $requested_by, $requested_by, $user]);
+
+            return ($prepared_statement->rowCount() == 1) ? [true, $prepared_statement->fetchAll()[0]] : [false];
+
+        }
+
+        public function add_friend_request($user, $requested_by){
+
+            //sanitizing variables
+            $user = $this->SanitizeVariable($user);
+            $requested_by = $this->SanitizeVariable($requested_by);
+
+            //operations
+            $sql = "INSERT INTO ".self::FRIEND_REQUESTS_TABLE."(User, RequestedBy, Timestamp) VALUES(?, ?, ?)";
+            $prepared_statement = $this->db_object->prepare($sql);
+
+            return $prepared_statement->execute([$user, $requested_by, time()]);
+
+        }
+
+        public function delete_friend_request($id){
+
+            //sanitizing variables
+            $id = $this->SanitizeVariable($id);
+
+            //operations
+            $sql = "DELETE FROM ".self::FRIEND_REQUESTS_TABLE." WHERE ID = ?";
+            $prepared_statement = $this->db_object->prepare($sql);
+
+            return $prepared_statement->execute([$id]);
+
+        }
+
+        public function get_num_friend_requests($user_id){
+
+            //sanitizing variables
+            $user_id = $this->SanitizeVariable($user_id);
+
+            //operations
+            $sql = "SELECT COUNT(ID) AS NumFriendRequests FROM ".self::FRIEND_REQUESTS_TABLE." WHERE User = ?";
+            $prepared_statement = $this->db_object->prepare($sql);
+            $prepared_statement->execute([$user_id]);
+
+            return $prepared_statement->fetchAll()[0]["NumFriendRequests"];
+
+        }
+
+        public function get_friend_requests($user_id, $limit = ""){
+
+            //sanitizing variables
+            $user_id = $this->SanitizeVariable($user_id);
+            $limit = $this->SanitizeVariable($limit);
+
+            $limit_query = ($limit != "") ? "LIMIT $limit" : "";
+
+            //operations
+            $sql = "SELECT * FROM ".self::FRIEND_REQUESTS_TABLE." WHERE User = ? ORDER BY Timestamp DESC $limit_query";
+            $prepared_statement = $this->db_object->prepare($sql);
+            $prepared_statement->execute([$user_id]);
+
+            return $prepared_statement->fetchAll();
+
+        }
+
+        public function get_friend_requests_sent($user_id){
+
+            //sanitizing variables
+            $user_id = $this->SanitizeVariable($user_id);
+
+            //operations
+            $sql = "SELECT * FROM ".self::FRIEND_REQUESTS_TABLE." WHERE RequestedBy = ? ORDER BY Timestamp DESC";
+            $prepared_statement = $this->db_object->prepare($sql);
+            $prepared_statement->execute([$user_id]);
+
+            return $prepared_statement->fetchAll();
+
+        }
+
+        public function add_friend($user1, $user2){
+
+            //sanitizing variables
+            $user1 = $this->SanitizeVariable($user1);
+            $user2 = $this->SanitizeVariable($user2);
+
+            //operations
+            $sql = "INSERT INTO ".self::FRIENDS_TABLE."(User1, User2, Status, Timestamp) VALUES(?, ?, ?, ?)";
+            $prepared_statement = $this->db_object->prepare($sql);
+
+            return $prepared_statement->execute([$user1, $user2, 1, time()]);
+
+        }
+
+        public function update_friend_datum($friend_id, $datum_key, $new_value){
+
+            //sanitizing variables
+            $friend_id = $this->SanitizeVariable($friend_id);
+            $datum_key = $this->SanitizeVariable($datum_key);
+            $new_value = $this->SanitizeVariable($new_value);
+
+            //operations
+            $sql = "UPDATE ".self::FRIENDS_TABLE." SET $datum_key = ? WHERE ID = ?";
+            $prepared_statement = $this->db_object->prepare($sql);
+
+            return $prepared_statement->execute([$new_value, $friend_id]);
+
+        }
+
+        public function get_friends($user_id){
+
+            //sanitizing variables
+            $user_id = $this->SanitizeVariable($user_id);
+
+            //operations
+            $sql = "SELECT * FROM ".self::FRIENDS_TABLE." WHERE User1 = ? OR User2 = ? AND Status = ? ORDER BY LastMessageTimestamp DESC";
+            $prepared_statement = $this->db_object->prepare($sql);
+            $prepared_statement->execute([$user_id, $user_id, 1]);
+
+            return $prepared_statement->fetchAll();
+
+        }
+
+        public function friend_exists($friend_id){
+
+            //sanitizing variables
+            $friend_id = $this->SanitizeVariable($friend_id);
+
+            //operations
+            $sql = "SELECT * FROM ".self::FRIENDS_TABLE." WHERE ID = ?";
+            $prepared_statement = $this->db_object->prepare($sql);
+            $prepared_statement->execute([$friend_id]);
+
+            return ($prepared_statement->rowCount() == 1) ? [true, $prepared_statement->fetchAll()[0]] : [false];
+
+        }
+
+        public function are_friends($user1, $user2){
+
+            //sanitizing variables
+            $user1 = $this->SanitizeVariable($user1);
+            $user2 = $this->SanitizeVariable($user2);
+
+            //operations
+            $sql = "SELECT * FROM ".self::FRIENDS_TABLE." WHERE Status = ? AND (User1 = ? AND User2 = ?) OR (User1 = ? AND User2 = ?)";
+            $prepared_statement = $this->db_object->prepare($sql);
+            $prepared_statement->execute([1, $user1, $user2, $user2, $user1]);
+
+            return ($prepared_statement->rowCount() == 1);
+
+        }
+
+        public function add_removed($user_id, $user_removed){
+
+            //sanitizing variables
+            $user_id = $this->SanitizeVariable($user_id);
+            $user_removed = $this->SanitizeVariable($user_removed);
+
+            //operations
+            $sql = "INSERT INTO ".self::REMOVED_TABLE."(User, UserRemoved, Timestamp) VALUES(?, ?, ?)";
+            $prepared_statement = $this->db_object->prepare($sql);
+
+            return $prepared_statement->execute([$user_id, $user_removed, time()]);
+
+        }
+
+        public function removed_exists($user, $user_removed){
+
+            //sanitizing variables
+            $user = $this->SanitizeVariable($user);
+            $user_removed = $this->SanitizeVariable($user_removed);
+
+            //operations
+            $sql = "SELECT * FROM ".self::REMOVED_TABLE." WHERE (User = ? AND UserRemoved = ?) OR (User = ? AND UserRemoved = ?)";
+            $prepared_statement = $this->db_object->prepare($sql);
+            $prepared_statement->execute([$user, $user_removed, $user_removed, $user]);
+
+            return ($prepared_statement->rowCount() == 1);
+
+        }
+
+        public function search_users($user_id, $search){
+
+            //sanitizing variables
+            $user_id = $this->SanitizeVariable($user_id);
+            $search = $this->SanitizeVariable($search);
+
+            $search = "%$search%";
+
+            //operations
+            $sql = "SELECT * FROM ".self::USERS_TABLE." WHERE FullName LIKE ? AND UserID != ? AND UserID NOT IN (SELECT User FROM ".self::REMOVED_TABLE." WHERE UserRemoved = ?) AND UserID NOT IN (SELECT UserRemoved FROM ".self::REMOVED_TABLE." WHERE User = ?)";
+            $prepared_statement = $this->db_object->prepare($sql);
+            $prepared_statement->execute([$search, $user_id, $user_id, $user_id]);
+
+            return ($prepared_statement->fetchAll());
+
+        }
 
     }
 

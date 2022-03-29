@@ -20,6 +20,26 @@
 
             $__user_details = $user_exists[1];
 
+            if($__user_details["ProfilePicture"] == NULL){
+
+                $__user_details["ProfilePicture"] = ($__user_details["Gender"] == "Male") ? "assets/images/img_avatar.png" : "assets/images/img_avatar2.png";
+
+            }else{
+
+                $__user_details["ProfilePicture"] = "users/".$__user_details["UserID"]."/".$__user_details["ProfilePicture"];
+
+            }
+
+            if($__user_details["CoverPhoto"] == NULL){
+
+                $__user_details["CoverPhoto"] = "assets/images/img_mountains.jpg";
+
+            }else{
+
+                $__user_details["CoverPhoto"] = "users/".$__user_details["UserID"]."/".$__user_details["CoverPhoto"];
+
+            }
+
         }else{
 
             if($__force_redirect){

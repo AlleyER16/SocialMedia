@@ -1,12 +1,12 @@
 <?php
 
-//require_once "includes/__auth_check.php";
+    require_once "includes/__auth_check.php";
 
 ?>
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Social Media -> Akashi Senpai</title>
+         <title>Social Media -> <?= $__user_details["FullName"] ?></title>
 
         <?php require_once "includes/meta.php" ?>
 
@@ -44,11 +44,11 @@
                         <form id="create_post">
                             <div class="panel panel-default">
                                 <div class="panel-heading">
-                                    Rehoboth Micah-Daniels <span class="w3-text-amber">@akashi_senpai</span>
+                                    <?= $__user_details["FullName"] ?> <span class="w3-text-amber">@<?= $__user_details["Username"] ?></span>
                                 </div>
                                 <div class="panel-body">
                                     <div class="col-md-2 col-sm-2 col-xs-3">
-                                        <img src="assets/images/img_avatar.png" width="100%" class="img-circle" style="max-height: 50px;"/>
+                                        <img src="<?= $__user_details["ProfilePicture"] ?>" width="100%" class="img-circle" style="max-height: 50px;"/>
                                     </div>
                                     <div class="col-md-10 col-sm-10 col-xs-9 w3-padding-top">
                                         <textarea class="custom_text_area" name="post_body">What is on your Mind?</textarea>
@@ -56,7 +56,6 @@
                                 </div>
                                 <div class="panel-footer">
                                     <button type="submit" class="btn btn-success">Upload Post</button>
-                                    <a href="advanced_post.jsp" class="btn btn-success">Advanced Post</a>
                                 </div>
                             </div>
                         </form>

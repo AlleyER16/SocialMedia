@@ -4,7 +4,7 @@ function display_feedback(message){
     $("#show_operation_message").find("#message").html(message);
 
     $("#show_loading").slideUp("fast");
-            
+
     interval = setInterval(function(){
 
         $("#show_operation_message").slideDown("fast").delay(1000);
@@ -24,41 +24,53 @@ $(document).ready(function() {
 
         $("#show_loading").slideDown("fast").delay(100);
 
-        var user_id = $(this).find("input[name='user_id']").val();
+        const form_data = $(this).serialize();
 
-        if(user_id === ""){
+        const submit_button = $(this).find("button[type='submit']");
 
-            display_feedback("Error Sending Friend Request");
+        const user_id = $(this).find("input[name='user_id']").val();
 
-        }else{
+        const remove_person_div = $(`#pymn__${user_id}`).find("div[type='remove_person']");
+        const add_friend_div = $(`#pymn__${user_id}`).find("div[type='add_friend']");
 
-            //Do Ajax
-            var form_data = $(this).serialize();
+        $.ajax({
 
-            //Expected Request File
-            var url = "model/";
+            url: "models/send_friend_request.php",
+            type: "post",
+            data: form_data,
+            success: function(data){
 
-            $.ajax({
+                var data = jQuery.trim(data);
 
-                url: url,
-                type: "post",
-                data: form_data,
-                success: function(data){
+                if(data == "Unauthorized"){
 
-                    var test_data = jQuery.trim(data);
-
-                    display_feedback(test_data);
-
-                },
-                error: function(){
-
-                    display_feedback("Error Sending Friend Request. Retry");
+                    window.location = "login.php";return;
 
                 }
 
-            });
+                if(data == "Friend request sent successfully"){
 
-        }
+                    submit_button.html("FRIEND REQUEST SENT").removeClass("btn-danger").addClass("btn-success");
+
+                    remove_person_div.remove();
+                    add_friend_div.removeClass("col-xs-6").addClass("col-xs-12");
+
+                    display_feedback(data);
+
+                }else{
+
+                    display_feedback(data);
+
+                }
+
+            },
+            error: function(){
+
+                display_feedback("Error Sending Friend Request. Retry");
+
+            }
+
+        });
 
     });
 
@@ -68,41 +80,53 @@ $(document).ready(function() {
 
         $("#show_loading").slideDown("fast").delay(100);
 
-        var user_id = $(this).find("input[name='user_id']").val();
+        const form_data = $(this).serialize();
 
-        if(user_id === ""){
+        const submit_button = $(this).find("button[type='submit']");
 
-            display_feedback("Error Removing Friend");
+        const user_id = $(this).find("input[name='user_id']").val();
 
-        }else{
+        const remove_person_div = $(`#pymn__${user_id}`).find("div[type='remove_person']");
+        const add_friend_div = $(`#pymn__${user_id}`).find("div[type='add_friend']");
 
-            //Do Ajax
-            var form_data = $(this).serialize();
+        $.ajax({
 
-            //Expected Request File
-            var url = "model/";
+            url: "models/remove_person.php",
+            type: "post",
+            data: form_data,
+            success: function(data){
 
-            $.ajax({
+                var data = jQuery.trim(data);
 
-                url: url,
-                type: "post",
-                data: form_data,
-                success: function(data){
+                if(data == "Unauthorized"){
 
-                    var test_data = jQuery.trim(data);
-
-                    display_feedback(test_data);
-
-                },
-                error: function(){
-
-                    display_feedback("Error Removing Friend. Retry");
+                    window.location = "login.php";return;
 
                 }
 
-            });
+                if(data == "User removed successfully"){
 
-        }
+                    submit_button.html("REMOVED");
+
+                    add_friend_div.remove();
+                    remove_person_div.removeClass("col-xs-6").addClass("col-xs-12");
+
+                    display_feedback(data);
+
+                }else{
+
+                    display_feedback(data);
+
+                }
+
+            },
+            error: function(){
+
+                display_feedback("Error removing person. Retry");
+
+            }
+
+        });
 
     });
 

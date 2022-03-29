@@ -21,10 +21,10 @@
 
                     <div class="form-group">
 
-                        <label class="w3-text-white">Telephone</label>
+                        <label class="w3-text-white">Username</label>
 
                         <div class="input-group">
-                            <input id="telephone" type="tel" class="form-control" name="telephone" placeholder="Enter Telephone" autocomplete="off">
+                            <input type="text" class="form-control" name="username" placeholder="Enter Username" autocomplete="off">
 
                             <div class="input-group-btn">
                                 <button type="button" class="btn btn-default">
@@ -55,7 +55,7 @@
 
                 </form>
 
-                <p class="w3-text-white">
+                <p class="w3-text-white" style="margin-top: 10px;">
                     Do not have an account <a href="signup.php" class="w3-text-blue w3-underline">Create</a>
                 </p>
 

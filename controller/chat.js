@@ -4,7 +4,7 @@ function display_feedback(message){
     $("#show_operation_message").find("#message").html(message);
 
     $("#show_loading").slideUp("fast");
-            
+
     interval = setInterval(function(){
 
         $("#show_operation_message").slideDown("fast").delay(1000);
@@ -16,42 +16,65 @@ function display_feedback(message){
 
 }
 
-function append_message(message){
+function delete_chat(chat_id){
 
-    var message_html = ""+
-        "<div class=\"row w3-margin-bottom\">"+
-        "   <div class=\"col-md-2 col-sm-2 col-xs-2\"></div>"+
-        "   <div class=\"col-md-10 col-sm-10 col-xs-10 w3-right-align\">"+
-        "       <button class=\"btn btn-primary\">"+ message +"</button>"+
-        "   </div>"+
-        "</div>";
+    $("#show_loading").slideDown("fast").delay(100);
+
+    var form_data = $(this).serialize();
+
+    $.ajax({
+
+        url: "models/delete_message.php",
+        type: "post",
+        data: {chat_id},
+        success: function(data){
+
+            var data = jQuery.trim(data);
+
+            if(data == "Unauthorized"){
+
+                window.location = "login.php";
+                return;
+
+            }
+
+            if(data == "Message deleted successfully"){
+
+                $(`#cht__${chat_id}`).remove();
+
+            }
+
+            display_feedback(data);
+
+        },
+        error: function(){
+
+            display_feedback("Error deleting message. Retry");
+
+        }
+
+    });
+
+}
+
+function append_message(message, chat_id){
+
+    var message_html = `
+        <div class="row w3-margin-bottom" id="cht__${chat_id}">
+            <div class="col-md-2 col-sm-2 col-xs-2"></div>
+            <div class="col-md-10 col-sm-10 col-xs-10 w3-right-align">
+                <span style="cursor: pointer; text-decoration: underline" class="text-danger" onclick="delete_chat(${chat_id})">Delete</span>
+                <span style="cursor: pointer;  text-decoration: underline" class="text-primary" onclick="edit_chat(${chat_id})">Edit</span>
+                <button class="btn btn-primary" id="msg__${chat_id}">${message}</button>
+            </div>
+        </div>
+    `;
 
     $("#actual_chat").append(message_html);
 
 }
 
-function refresh_chatlist(){
-
-    url = "includes/chat_chatlist.php";
-
-    $(".friends_view").load(url);
-
-}
-
-//Go bact To
-/*
-function refresh_new_message(){
-
-}
-*/
-
-$(document).ready(function() {  
-
-    chatlist_refresh = setInterval(function(){
-
-        refresh_chatlist();
-
-    }, 1000);
+$(document).ready(function() {
 
     $("#send_message").submit(function(event) {
 
@@ -59,47 +82,47 @@ $(document).ready(function() {
 
         $("#show_loading").slideDown("fast").delay(100);
 
-        var message = $(this).find("input[name='message']").val();
+        var form_data = $(this).serialize();
 
-        if(message === ""){
+        const message = $(this).find("input[name='message']").val();
 
-            display_feedback("Fill In Message Field");
+        $.ajax({
 
-        }else{
+            url: "models/add_message.php",
+            type: "post",
+            data: form_data,
+            success: function(data){
 
-            //Do Ajax
-            var form_data = $(this).serialize();
+                data = $.trim(data);
 
-            //Expected Request File
-            var url = "model/";
+                data = data.split(",");
 
-            $.ajax({
+                if(data[0] == "Unauthorized"){
+                    window.location = "login.php";return;
+                }
 
-                url: url,
-                type: "post",
-                data: form_data,
-                success: function(data){
+                if(data[0] === "Message added successfully"){
 
-                    if(jQuery.trim(data) === "Message Sent"){
+                    append_message(message, data[1]);
 
-                        append_message(message);
+                    $("#show_loading").slideUp("fast");
 
-                    }else{
+                    $("#send_message").trigger("reset");
 
-                        display_feedback(jQuery.trim(data));
+                }else{
 
-                    }
-
-                },
-                error: function(){
-                    
-                    display_feedback("Error Sending Message. Retry");
+                    display_feedback(data);
 
                 }
 
-            });
+            },
+            error: function(){
 
-        }
+                display_feedback("Error Sending Message. Retry");
+
+            }
+
+        });
 
     });
 

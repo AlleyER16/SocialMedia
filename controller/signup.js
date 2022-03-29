@@ -4,7 +4,7 @@ function display_feedback(message){
     $("#show_operation_message").find("#message").html(message);
 
     $("#show_loading").slideUp("fast");
-            
+
     interval = setInterval(function(){
 
         $("#show_operation_message").slideDown("fast").delay(1000);
@@ -64,67 +64,39 @@ $(document).ready(function() {
 
         $("#show_loading").slideDown("fast").delay(100);
 
-        var full_name = $(this).find("input[name='full_name']").val();
-        var gender = $(this).find("input[name='gender']").val();
-        var date_of_birth = $(this).find("input[name='date_of_birth']").val();
-        var telephone = $(this).find("input[name='telephone']").val();
-        var username = $(this).find("input[name='username']").val();
-        var password = $(this).find("input[name='password']").val();
-        var confirm_password = $(this).find("input[name='confirm_password']").val();
+        var form_data = $(this).serialize();
 
-        if(full_name === "" || gender === "" || date_of_birth === "" || telephone === "" || username === "" || password === "" || confirm_password === ""){
+        $.ajax({
 
-            display_feedback("Fill In All Fields");
+            url: "models/signup.php",
+            type: "post",
+            data: form_data,
+            success: function(data){
 
-        }else{
+                if(jQuery.trim(data) === "Account Created Successfully. Redirecting..."){
 
-            if(password === confirm_password){
+                    display_feedback(jQuery.trim(data));
 
-                //Do Ajax
-                var form_data = $(this).serialize();
+                    signup_redirect_interval = setInterval(function() {
 
-                //Expected Request File
-                var url = "model/signup_db.jsp";
+                        window.location = "home.php";
 
-                $.ajax({
+                    }, 1000);
 
-                    url: url,
-                    type: "post",
-                    data: form_data,
-                    success: function(data){
+                }else{
 
-                        if(jQuery.trim(data) === "Account Created Successfully. Redirecting..."){
+                    display_feedback(jQuery.trim(data));
 
-                            display_feedback(jQuery.trim(data));
-                            
-                            signup_redirect_interval = setInterval(function() {
-                                
-                                window.location = "post.jsp";
-                                
-                            }, 1000);
+                }
 
-                        }else{
+            },
+            error: function(){
 
-                            display_feedback(jQuery.trim(data));
-
-                        }
-
-                    },
-                    error: function(){
-                        
-                        display_feedback("Error Creating Account. Retry");
-
-                    }
-
-                });
-
-            }else{
-
-                display_feedback("Password And Confirm Password Do Not Match");
+                display_feedback("Error Creating Account. Retry");
 
             }
 
-        }
+        });
 
     });
 

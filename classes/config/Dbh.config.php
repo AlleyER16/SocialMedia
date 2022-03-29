@@ -2,17 +2,17 @@
 
     class Dbh{
 
-        private const HOST_NAME = "localhost";
-		private const USER_NAME = "root";
-		private const PASSWORD = "";
-		private const DATABASE_NAME = "socialmedia";
-
-		private const DSN = "mysql:host=".self::HOST_NAME.";dbname=".self::DATABASE_NAME;
+        private $HOST_NAME = "localhost";
+		private $USER_NAME = "root";
+		private $PASSWORD = "";
+		private $DATABASE_NAME = "socialmedia";
 
 		public function GetConnection(){
 
-			$conn_object = new PDO(self::DSN, self::USER_NAME, self::PASSWORD);
-			$conn_object->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
+            $DSN = "mysql:host=".$this->HOST_NAME.";dbname=".$this->DATABASE_NAME;
+
+			$conn_object = new PDO($DSN, $this->USER_NAME, $this->PASSWORD);
+			$conn_object->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
 
 			return $conn_object;
 

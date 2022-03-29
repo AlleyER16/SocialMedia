@@ -59,52 +59,52 @@
                             <div class="form-group">
                                 <label class="w3-text-white">Telephone</label>
                                 <input type="tel" name="telephone" class="form-control" placeholder="Enter Telephone">
-                                </div>
-                                <div class="form-group">
-                                    <label class="w3-text-white">Username</label>
-                                    <input type="text" name="username" class="form-control" placeholder="Enter Username">
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-md-6 col-sm-6 form-group">
-                                        <label class="w3-text-white">Password</label>
-                                        <div class="input-group">
-                                            <input type="password" id="password" class="form-control" name="password" placeholder="Enter Password">
-                                                <div class="input-group-btn">
-                                                    <button  type="button" class="btn btn-default" id="show_password">
-                                                        <i class="fa fa-lock"></i>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-sm-6 form-group">
-                                            <label class="w3-text-white">Confirm Password</label>
-                                            <div class="input-group">
-                                                <input type="password" id="confirm_password" class="form-control" name="confirm_password" placeholder="Confirm Password">
-                                                    <div class="input-group-btn">
-                                                        <button  type="button" class="btn btn-default" id="show_confirm_password">
-                                                            <i class="fa fa-lock"></i>
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <input type="submit" class="btn btn-success" value="Sign Up"/>
-                                        <input type="reset" class="btn btn-danger"/>
-
-                                    </form>
-
-                                    <hr/>
-
-                                    <p class="w3-margin-top w3-text-white">Already have an account <a href="login.jsp" class="w3-text-blue w3-underline">login</a></p>
-
-                                </div>
-
+                            </div>
+                            <div class="form-group">
+                                <label class="w3-text-white">Username</label>
+                                <input type="text" name="username" class="form-control" placeholder="Enter Username">
                             </div>
                         </div>
 
-                        <script type="text/javascript" src="controller/signup.js"></script>
-                    </body>
-                </html>
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6 form-group">
+                                <label class="w3-text-white">Password</label>
+                                <div class="input-group">
+                                    <input type="password" id="password" class="form-control" name="password" placeholder="Enter Password">
+                                        <div class="input-group-btn">
+                                        <button  type="button" class="btn btn-default" id="show_password">
+                                            <i class="fa fa-lock"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-6 form-group">
+                                <label class="w3-text-white">Confirm Password</label>
+                                <div class="input-group">
+                                    <input type="password" id="confirm_password" class="form-control" name="confirm_password" placeholder="Confirm Password">
+                                    <div class="input-group-btn">
+                                        <button  type="button" class="btn btn-default" id="show_confirm_password">
+                                            <i class="fa fa-lock"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <input type="submit" class="btn btn-success" value="Sign Up"/>
+                        <input type="reset" class="btn btn-danger"/>
+
+                    </form>
+
+                    <hr/>
+
+                    <p class="w3-margin-top w3-text-white">Already have an account <a href="login.php" class="w3-text-blue w3-underline">login</a></p>
+
+                </div>
+
+            </div>
+        </div>
+
+        <script type="text/javascript" src="controller/signup.js"></script>
+    </body>
+</html>

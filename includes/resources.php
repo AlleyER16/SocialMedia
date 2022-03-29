@@ -9,7 +9,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap" rel="stylesheet">
 
 <style type="text/css">
-    *,h1,h3{
+    *, h1, h3, h6{
         font-family: 'Poppins', sans-serif;
     }
 </style>

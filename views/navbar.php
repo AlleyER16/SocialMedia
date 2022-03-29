@@ -3,7 +3,7 @@
         <a href="post.php" class="navbar-brand">SM</a>
     </div>
     <div class="col-md-2 col-sm-5 w3-padding-top">
-        <form id="search-form">
+        <form action="search.php">
             <div class="input-group">
                 <input type="text" name="search" class="form-control" placeholder="Search">
                 <div class="input-group-btn">
@@ -16,8 +16,8 @@
     </div>
     <div class="col-md-4 nav navbar-nav t_disp_none">
         <li>
-            <a href="post.php">
-                <span class="fa fa-home"></span> Posts
+            <a href="home.php">
+                <span class="fa fa-home"></span> Home
             </a>
         </li>
         <li>
@@ -47,7 +47,7 @@
                 </li>
                 <li class="divider"></li>
                 <li>
-                    <a href="post.php">Posts</a>
+                    <a href="home.php">Home</a>
                 </li>
                 <li class="divider"></li>
                 <li>
@@ -72,13 +72,13 @@
                 </li>
             </ul>
         </li>
-        <li><a href="profile.php"><span class="fa fa-user"></span> Rehoboth Micah-Daniels</a></li>
+        <li><a href="profile.php"><span class="fa fa-user"></span> <?= $__user_details["FullName"] ?></a></li>
     </ul>
 </div>
 
 <div class="container-fluid navbar-inverse">
     <div class="col-md-1 col-sm-2">
-        <a href="post.php" class="navbar-brand">ABook</a>
+        <a href="post.php" class="navbar-brand">SM</a>
     </div>
     <div class="col-md-2 col-sm-5 w3-padding-top">
         <form id="scrap-search-form">

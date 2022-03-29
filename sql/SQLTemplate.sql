@@ -3,7 +3,7 @@ CREATE TABLE users(
     FullName VARCHAR(100) NOT NULL,
     Gender ENUM("Male", "Female") NOT NULL,
     DateOfBirth DATE NOT NULL,
-    Telephone VARCHAR(20) NOT NULL,
+    Telephone VARCHAR(20) UNIQUE NOT NULL,
     Username VARCHAR(100) UNIQUE NOT NULL,
     Password VARCHAR(100) NOT NULL,
     ProfilePicture VARCHAR(200) NULL,
@@ -18,6 +18,7 @@ CREATE TABLE friends(
     User2 INT NOT NULL,
     Status ENUM("0", "1") NOT NULL,
     Timestamp INT NOT NULL,
+    LastMessageTimestamp INT NULL,
     FOREIGN KEY (User1) REFERENCES users(UserID),
     FOREIGN KEY (User2) REFERENCES users(UserID)
 )Engine=INNODB;

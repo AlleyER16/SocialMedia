@@ -6,7 +6,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a href="#" class="navbar-brand">ABook</a>
+            <a href="#" class="navbar-brand">Social Media</a>
         </div>
         <div class="collapse navbar-collapse" id="mynav">
             <ul class="nav navbar-nav navbar-right">

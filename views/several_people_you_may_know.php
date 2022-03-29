@@ -1,42 +1,79 @@
+<?php
+
+    require_once "classes/Users.class.php";
+
+    $users_obj = new Users();
+
+    $peoples = $users_obj->get_people_you_may_know($__user_details["UserID"]);
+
+    $num_pymn = count($peoples);
+
+?>
 <div class="friendrequest w3-margin-top">
     <div class="col-md-12">
         <div class="row">
             <div class="panel panel-default">
                 <div class="panel-heading">People You May Know</div>
                 <div class="panel-body">
-                    <div class="row w3-margin-bottom">
-                        <div class="col-md-3 col-sm-3 col-xs-4">
-                            <img src="<%= this_profile_picture %>" style="width: 100%; height: 80px"/>
-                        </div>
-                        <div class="col-md-9 col-sm-9 col-xs-8">
-                            <b><%= this_full_name %></b><br/>
-                            <span class="w3-text-amber">@<%= this_username %></span>
-                            <div class="row">
-                                <div class="col-xs-6">
-                                    <form class="add_friend">
-                                        <input type="hidden" name="user_id" value="<%= this_user_id %>"/>
-                                        <input type="submit" value="ADD FRIEND" class="btn btn-sm btn-success"/>
-                                    </form>
+                    <?php
+
+                        if($num_pymn >= 1){
+
+                            foreach ($peoples as $user) {
+
+                                if($user["ProfilePicture"] == NULL){
+
+                                    $user["ProfilePicture"] = ($user["Gender"] == "Male") ? "assets/images/img_avatar.png" : "assets/images/img_avatar2.png";
+
+                                }else{
+
+                                    $user["ProfilePicture"] = "users/".$user["UserID"]."/".$user["ProfilePicture"];
+
+                                }
+
+                                ?>
+                                <div class="row w3-margin-bottom" id="pymn__<?= $user["UserID"] ?>">
+                                    <div class="col-md-3 col-sm-3 col-xs-4">
+                                        <img src="<?= $user["ProfilePicture"] ?>" class="img-rounded" style="width: 100px; height: 100px"/>
+                                    </div>
+                                    <div class="col-md-9 col-sm-9 col-xs-8" style="padding-top: 10px;">
+                                        <b><?= $user["FullName"] ?></b><br/>
+                                        <span class="w3-text-amber">@<?= $user["Username"] ?></span>
+                                        <div class="row">
+                                            <div class="col-xs-6" type="add_friend">
+                                                <form class="add_friend">
+                                                    <input type="hidden" name="user_id" value="<?= $user["UserID"] ?>"/>
+                                                    <button type="submit" class="btn btn-sm btn-success">ADD FRIEND</button>
+                                                </form>
+                                            </div>
+                                            <div class="col-xs-6" type="remove_person">
+                                                <form class="remove_friend">
+                                                    <input type="hidden" name="user_id" value="<?= $user["UserID"] ?>"/>
+                                                    <button type="submit" class="btn btn-sm btn-danger">REMOVE</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="col-xs-6">
-                                    <form class="remove_friend">
-                                        <input type="hidden" name="user_id" value="<%= this_user_id %>"/>
-                                        <input type="submit" value="REMOVE" class="btn btn-sm btn-danger"/>
-                                    </form>
+                                <?php
+
+                            }
+
+                        }else{
+
+                            ?>
+                            <div class="row">
+                                <div class="col-lg-12 text-center">
+                                    There are no friends suggestions rignt now
                                 </div>
                             </div>
-                        </div>
-                    </div>
+                            <?php
+
+                        }
+
+                    ?>
                 </div>
-                <!--
-                <div class="panel-footer w3-center">
-                <button class="btn btn-success">&lt</button>
-                <button class="btn btn-info">1</button>
-                <button class="btn btn-success">2</button>
-                <button class="btn btn-success">&gt</button>
             </div>
-        -->
+        </div>
     </div>
-</div>
-</div>
 </div>

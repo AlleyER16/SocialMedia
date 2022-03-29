@@ -4,7 +4,7 @@ function display_feedback(message){
     $("#show_operation_message").find("#message").html(message);
 
     $("#show_loading").slideUp("fast");
-            
+
     interval = setInterval(function(){
 
         $("#show_operation_message").slideDown("fast").delay(1000);
@@ -47,53 +47,39 @@ $(document).ready(function() {
         var telephone = $(this).find("input[name='telephone']").val();
         var password = $(this).find("input[name='password']").val();
 
-        //alert("Telephone: " + telephone + "\nPassword: " + password);
+        var form_data = $(this).serialize();
 
-        if(telephone === "" || password === ""){
+        $.ajax({
 
-            display_feedback("Fill In All Fields");
+            url: "models/login.php",
+            type: "post",
+            data: form_data,
+            success: function(data){
 
-        }else{
+                if(jQuery.trim(data) === "Account Verified. Logging in..."){
 
-            //Do Ajax
-            var form_data = $(this).serialize();
+                    display_feedback(jQuery.trim(data));
 
-            //Expected Request File
-            var url = "model/login_db.jsp";
+                    signup_redirect_interval = setInterval(function() {
 
-            $.ajax({
+                        window.location = "home.php";
 
-                url: url,
-                type: "post",
-                data: form_data,
-                success: function(data){
+                    }, 1000);
 
-                    if(jQuery.trim(data) === "Account Verified. Logging in..."){
+                }else{
 
-                        display_feedback(jQuery.trim(data));
-                        
-                        signup_redirect_interval = setInterval(function() {
-                                
-                            window.location = "post.jsp";
-                                
-                        }, 1000);
-
-                    }else{
-
-                        display_feedback(jQuery.trim(data));
-
-                    }
-
-                },
-                error: function(){
-                    
-                    display_feedback("Error Logging In. Retry");
+                    display_feedback(jQuery.trim(data));
 
                 }
 
-            });
+            },
+            error: function(){
 
-        }
+                display_feedback("Error Logging In. Retry");
+
+            }
+
+        });
 
     });
 

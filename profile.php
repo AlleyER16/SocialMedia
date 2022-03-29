@@ -1,7 +1,14 @@
+<?php
+
+    require_once "includes/__auth_check.php";
+
+    $__page = $_GET["page"] ?? "fr";
+
+?>
 <!DOCTYPE html>
 <html>
     <head>
-    	<title>ABook -> Akashi Senpai</title>
+    	 <title>Social Media -> <?= $__user_details["FullName"] ?></title>
 
         <?php require_once "includes/meta.php" ?>
 
@@ -37,19 +44,19 @@
 
                     <div class="row">
                         <div class="col-md-12 col-sm-12 col-xs-12">
-                            <img src="assets/images/img_mountains.jpg" style="width: 100%;"/>
+                            <img src="<?= $__user_details["CoverPhoto"] ?>" class="img-rounded" style="width: 100%;"/>
                         </div>
                     </div>
 
                     <div class="row w3-margin-bottom">
                         <div class="col-md-4 col-sm-4 col-xs-4">
-                            <img src="assets/images/img_avatar.png" style="width: 100%; margin-top: -55px;"/>
+                            <img src="<?= $__user_details["ProfilePicture"] ?>" class="img-rounded" style="width: 100%; margin-top: -55px;"/>
                         </div>
                         <div class="col-md-8 col-sm-8 col-xs-8">
-                            <h3>Rehoboth Micah-Daniels</h3>
+                            <h3><?= $__user_details["FullName"] ?></h3>
                             <div class="row">
                                 <div class="col-md-12 w3-padding-bottom">
-                                    <span class="w3-text-amber">@akashi_senpai</span>
+                                    <span class="w3-text-amber">@<?= $__user_details["Username"] ?></span>
                                 </div>
                             </div>
                             <div class="row">
@@ -63,11 +70,11 @@
                         <form id="create_post">
                             <div class="panel panel-default">
                                 <div class="panel-heading">
-                                    Rehoboth Micah-Daniels <span class="w3-text-amber">@akashi_senpai</span>
+                                    <?= $__user_details["FullName"] ?> <span class="w3-text-amber">@<?= $__user_details["Username"] ?></span>
                                 </div>
                                 <div class="panel-body">
                                     <div class="col-md-2 col-sm-2 col-xs-3">
-                                        <img src="assets/images/img_avatar.png" class="img-circle" style="width: 50px; height: 50px;"/>
+                                        <img src="<?= $__user_details["ProfilePicture"] ?>" class="img-circle" style="width: 50px; height: 50px;"/>
                                     </div>
                                     <div class="col-md-10 col-sm-10 col-xs-9 w3-padding-top">
                                         <textarea class="custom_text_area" name="post_body">What is on your Mind?</textarea>
@@ -75,20 +82,37 @@
                                 </div>
                                 <div class="panel-footer">
                                     <button type="submit" class="btn btn-success">Upload Post</button>
-                                    <a href="advanced_post.jsp" class="btn btn-success">Advanced Post</a>
                                 </div>
                             </div>
                         </form>
                     </div>
 
-                    <div class="col-md-12 navbar-default w3-margin-bottom">
-                        <div class="col-md-6 col-sm-6 col-xs-6 w3-center w3-padding-top w3-padding-bottom w3-border-right">
-                            Friends
-                        </div>
-                        <div class="col-md-6 col-sm-6 col-xs-6 w3-center w3-padding-top w3-padding-bottom">
-                            Posts
-                        </div>
+                    <div class="btn-group btn-group-justified w3-margin-bottom">
+                        <a href="profile.php?page=posts" class="btn btn-success">Posts</a>
+                        <a href="profile.php?page=friends" class="btn btn-success">Friends</a>
                     </div>
+
+                    <?php
+
+                        if($__page == "posts"){
+
+                            ?>
+                            <div id="friend_requests">
+                                <?php require_once "views/my_posts.php" ?>
+                            </div>
+                            <?php
+
+                        }else if($__page == "friends"){
+
+                            ?>
+                            <div id="friend_requests_sent">
+                                <?php require_once "views/friends.php" ?>
+                            </div>
+                            <?php
+
+                        }
+
+                    ?>
 
                 </div>
 
