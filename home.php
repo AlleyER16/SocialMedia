@@ -50,8 +50,9 @@
                                     <div class="col-md-2 col-sm-2 col-xs-3">
                                         <img src="<?= $__user_details["ProfilePicture"] ?>" width="100%" class="img-circle" style="max-height: 50px;"/>
                                     </div>
-                                    <div class="col-md-10 col-sm-10 col-xs-9 w3-padding-top">
-                                        <textarea class="custom_text_area" name="post_body">What is on your Mind?</textarea>
+                                    <div class="col-md-10 col-sm-10 col-xs-9">
+                                        <input type="text" name="post_title" class="form-control" placeholder="Post title" required/><br/>
+                                        <textarea class="form-control" name="post_body" rows="5" placeholder="What is on your Mind?" required></textarea>
                                     </div>
                                 </div>
                                 <div class="panel-footer">
@@ -90,18 +91,6 @@
             </div>
 
         </div>
-
-        <script type="text/javascript" src="controller/components_refresh.js"></script>
-
-        <script type="text/javascript">
-
-        setInterval(chatlist_refresh, 500);
-
-        setInterval(friend_requests_count_refresh, 500);
-
-        setInterval(num_unread_chat_refresh, 500);
-
-        </script>
 
         <script type="text/javascript" src="controller/friend_requests.js"></script>
         <script type="text/javascript" src="controller/post_operations.js"></script>

@@ -2,7 +2,13 @@
 
     require_once "includes/__auth_check.php";
 
-    $__page = $_GET["page"] ?? "fr";
+    $__page = $_GET["page"] ?? "posts";
+
+    require_once "classes/Users.class.php";
+    require_once "classes/Posts.class.php";
+
+    $users_obj = new Users();
+    $posts_obj = new Posts();
 
 ?>
 <!DOCTYPE html>
@@ -60,8 +66,8 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-6 col-sm-6 col-xs-6"><button class="btn btn-default btn-block">10 Posts</button></div>
-                                <div class="col-md-6 col-sm-6 col-xs-6"><button class="btn btn-default btn-block">10 Friends</button></div>
+                                <div class="col-md-6 col-sm-6 col-xs-6"><button class="btn btn-default btn-block"><?= $posts_obj->get_num_my_posts($__user_details["UserID"]) ?> Posts</button></div>
+                                <div class="col-md-6 col-sm-6 col-xs-6"><button class="btn btn-default btn-block"><?= $users_obj->get_num_friends($__user_details["UserID"]) ?> Friends</button></div>
                             </div>
                         </div>
                     </div>
@@ -76,8 +82,9 @@
                                     <div class="col-md-2 col-sm-2 col-xs-3">
                                         <img src="<?= $__user_details["ProfilePicture"] ?>" class="img-circle" style="width: 50px; height: 50px;"/>
                                     </div>
-                                    <div class="col-md-10 col-sm-10 col-xs-9 w3-padding-top">
-                                        <textarea class="custom_text_area" name="post_body">What is on your Mind?</textarea>
+                                    <div class="col-md-10 col-sm-10 col-xs-9">
+                                        <input type="text" name="post_title" class="form-control" placeholder="Post title" required/><br/>
+                                        <textarea class="form-control" name="post_body" rows="5" placeholder="What is on your Mind?" required></textarea>
                                     </div>
                                 </div>
                                 <div class="panel-footer">
@@ -97,7 +104,7 @@
                         if($__page == "posts"){
 
                             ?>
-                            <div id="friend_requests">
+                            <div class="w3-padding" id="posts">
                                 <?php require_once "views/my_posts.php" ?>
                             </div>
                             <?php
@@ -124,18 +131,7 @@
 
         </div>
 
-        <script type="text/javascript" src="controller/components_refresh.js"></script>
-
-        <script type="text/javascript">
-
-            setInterval(chatlist_refresh, 500);
-
-            setInterval(friend_requests_count_refresh, 500);
-
-            setInterval(num_unread_chat_refresh, 500);
-
-        </script>
-
         <script type="text/javascript" src="controller/post_creating.js"></script>
+        <script type="text/javascript" src="controller/post_operations.js"></script>
 	</body>
 </html>

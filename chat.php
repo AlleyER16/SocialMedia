@@ -71,7 +71,7 @@
 
         <?php require_once "views/feedback_divs.php" ?>
 
-        <div class="">
+        <div>
             <div class="col-md-3 col-sm-4 col-xs-12 w3-grey friends_view chat_hide w3-light">
                 <?php require_once "views/chat_chatlist.php" ?>
             </div>
@@ -123,8 +123,6 @@
                                         <div class="row w3-margin-bottom" id="cht__<?= $message["ID"] ?>">
                                             <div class="col-md-10 col-sm-10 col-xs-10">
                                                 <button class="btn btn-primary" id="msg__<?= $message["ID"] ?>"><?= $message["Message"] ?></button>
-                                                <span style="cursor: pointer;  text-decoration: underline" class="text-primary" onclick="edit_chat(<?= $message["ID"] ?>)">Edit</span>
-                                                <span style="cursor: pointer; text-decoration: underline" class="text-danger" onclick="delete_chat(<?= $message["ID"] ?>)">Delete</span>
                                             </div>
                                             <div class="col-md-2 col-sm-2 col-xs-2"></div>
                                         </div>
@@ -137,7 +135,7 @@
                                             <div class="col-md-2 col-sm-2 col-xs-2"></div>
                                             <div class="col-md-10 col-sm-10 col-xs-10 w3-right-align">
                                                 <span style="cursor: pointer; text-decoration: underline" class="text-danger" onclick="delete_chat(<?= $message["ID"] ?>)">Delete</span>
-                                                <span style="cursor: pointer;  text-decoration: underline" class="text-primary" onclick="edit_chat(<?= $message["ID"] ?>)">Edit</span>
+                                                <span style="cursor: pointer;  text-decoration: underline" class="text-primary" onclick="edit_chat(<?= $message["ID"] ?>, `<?= $message["Message"] ?>`)">Edit</span>
                                                 <button class="btn btn-primary" id="msg__<?= $message["ID"] ?>"><?= $message["Message"] ?></button>
                                             </div>
                                         </div>
@@ -184,18 +182,38 @@
                 }
 
             ?>
-
         </div>
 
-        <script type="text/javascript" src="controller/components_refresh.js"></script>
+        <div id="updateChatModal" class="modal fade" role="dialog">
+          <div class="modal-dialog">
 
-        <script type="text/javascript">
+            <!-- Modal content-->
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Edit Message</h4>
+              </div>
+              <form id="update_chat_form">
+                  <input type="hidden" name="chat_id" value=""/>
+                  <div class="modal-body">
+                      <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-12">
+                                <label>Message</label>
+                                <textarea name="message" class="form-control" rows="5" required></textarea>
+                            </div>
+                        </div>
+                      </div>
+                  </div>
+                  <div class="modal-footer">
+                      <span class="server_response"></span>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <button type="submit" class="btn btn-primary">Update</button>
+                </div>
+            </form>
+            </div>
 
-            setInterval(friend_requests_count_refresh, 500);
-
-            setInterval(num_unread_chat_refresh, 500);
-
-        </script>
+          </div>
+        </div>
 
         <script type="text/javascript" src="controller/chat.js"></script>
 	</body>

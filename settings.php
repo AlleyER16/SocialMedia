@@ -133,18 +133,6 @@
 
         </div>
 
-        <script type="text/javascript" src="controller/components_refresh.js"></script>
-
-        <script type="text/javascript">
-
-            setInterval(chatlist_refresh, 500);
-
-            setInterval(friend_requests_count_refresh, 500);
-
-            setInterval(num_unread_chat_refresh, 500);
-
-        </script>
-
         <script src="controller/settings.js"></script>
 	</body>
 </html>

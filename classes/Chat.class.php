@@ -81,6 +81,21 @@
 
         }
 
+        public function update_chat_datum($chat_id, $datum_key, $new_value){
+
+            //sanitizing variables
+            $chat_id = $this->SanitizeVariable($chat_id);
+            $datum_key = $this->SanitizeVariable($datum_key);
+            $new_value = $this->SanitizeVariable($new_value);
+
+            //operations
+            $sql = "UPDATE ".self::CHAT_TABLE." SET $datum_key = ? WHERE ID = ?";
+            $prepared_statement = $this->db_object->prepare($sql);
+
+            return $prepared_statement->execute([$new_value, $chat_id]);
+
+        }
+
         public function delete_chat($id){
 
             //sanitizing variables

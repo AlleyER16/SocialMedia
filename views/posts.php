@@ -1,25 +1,69 @@
+<?php
 
-<div id="post1" class="row navbar-default w3-padding-top w3-padding-bottom w3-border w3-margin-bottom" style="border-radius: 5px;">
-    <div class="col-md-2 col-sm-2 col-xs-3">
-        <img src="assets/images/img_avatar.png" width="100%" class="img-circle" style="max-height: 50px; border: 2px solid black"/>
-        <span class="w3-green w3-circle bottom-right" style="width: 10px; height: 10px;"></span>
-    </div>
-    <div class="col-md-10 col-sm-10 col-xs-9">
-        <span><b>Akashi Senpai</b> - <span>First Post</span></span><br/>
-        <span class="w3-text-black" style="font-size: 12px">12:00pm on Apr 5 2020</span>
-    </div>
-    <div class="col-md-12 col-sm-12 col-xs-12 w3-margin-top w3-margin-bottom" data-toggle="modal" data-target="#postextra<?php echo $pstid;?>">
-        <p class="text-justify">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio totam,
-            maxime omnis neque quaerat eligendi, facere cupiditate, ipsa culpa consequuntur soluta.
-            Sint fugiat non, nulla sit unde ea nisi itaque!
-        </p>
-    </div>
+    require_once "classes/Users.class.php";
+    require_once "classes/Posts.class.php";
 
-    <div class="col-md-6 w3-center">
-        <button type="submit" class="btn btn-link w3-text-black w3-left" data-toggle="modal" data-target="#postreacts1" style="font-size: 15px;">
-            <span class="fa fa-heart-o"></span> <span class="num_post_loves">5 Likes</span>
-        </button>
-    </div>
+    $users_obj = new Users();
+    $posts_obj = new Posts();
 
-</div>
+    $posts = $posts_obj->get_timeline($__user_details["UserID"]);
+
+    foreach($posts as $post){
+
+        $user_details = $users_obj->user_exists("UserID", $post["CreatedBy"])[1];
+
+        if($user_details["ProfilePicture"] == NULL){
+
+            $user_details["ProfilePicture"] = ($user_details["Gender"] == "Male") ? "assets/images/img_avatar.png" : "assets/images/img_avatar2.png";
+
+        }else{
+
+            $user_details["ProfilePicture"] = "users/".$user_details["UserID"]."/".$user_details["ProfilePicture"];
+
+        }
+
+        ?>
+        <div id="post__<?= $post["PostID"] ?>" class="row navbar-default w3-padding-top w3-padding-bottom w3-border w3-margin-bottom" style="border-radius: 5px;">
+            <div class="col-md-2 col-sm-2 col-xs-3">
+                <img src="<?= $user_details["ProfilePicture"] ?>" width="100%" class="img-circle" style="max-height: 50px; border: 2px solid black"/>
+                <span class="w3-green w3-circle bottom-right1" style="width: 10px; height: 10px;"></span>
+            </div>
+            <div class="col-md-10 col-sm-10 col-xs-9">
+                <span><b><?= $user_details["FullName"] ?></b> - <span><?= $post["PostTitle"] ?></span></span><br/>
+                <span class="w3-text-black" style="font-size: 12px">12:00pm on Apr 5 2020</span>
+            </div>
+            <div class="col-md-12 col-sm-12 col-xs-12 w3-margin-top w3-margin-bottom" data-toggle="modal" data-target="#postextra<?php echo $pstid;?>">
+                <p class="text-justify">
+                    <?= $post["PostBody"] ?>
+                </p>
+            </div>
+
+            <div class="col-md-6 w3-center">
+                <?php
+
+                    if($posts_obj->post_like_exists($post["PostID"], $__user_details["UserID"])){
+
+                        ?>
+                        <button type="button" class="btn btn-link w3-text-black w3-left" style="font-size: 15px;">
+                            <span class="fa fa-heart"></span> <span class="num_post_loves"><?= $posts_obj->get_num_post_likes($post["PostID"]) ?> Likes</span>
+                        </button>
+                        <?php
+
+                    }else{
+
+                        ?>
+                        <button type="button" class="btn btn-link w3-text-black w3-left" onclick="like_post($(this), <?= $post["PostID"] ?>)" style="font-size: 15px;">
+                            <span class="fa fa-heart-o"></span> <span class="num_post_loves"><?= $posts_obj->get_num_post_likes($post["PostID"]) ?> Likes</span>
+                        </button>
+                        <?php
+
+                    }
+
+                ?>
+            </div>
+        </div>
+        <?php
+
+    }
+
+?>

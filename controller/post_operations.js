@@ -4,7 +4,7 @@ function display_feedback(message){
     $("#show_operation_message").find("#message").html(message);
 
     $("#show_loading").slideUp("fast");
-            
+
     interval = setInterval(function(){
 
         $("#show_operation_message").slideDown("fast").delay(1000);
@@ -27,169 +27,51 @@ function set_loved(post_id){
 
 }
 
-function load_top_comment(post_id){
+function like_post(trigger_btn, post_id){
 
-    var url = "includes/top_post_comment.php?post_id="+post_id;
-
-    $("#post"+post_id).find(".top_post_comment").load(url);
-
-}
-
-function load_num_loves(post_id){
-
-    var request_url = "model/";
+    $("#show_loading").slideDown("fast").delay(100);
 
     $.ajax({
 
-        url: request_url,
+        url: "models/like_post.php",
         type: "post",
-        data: "post_id="+post_id,
+        data: {post_id},
         success: function(data){
 
-            $("#post"+post_id).find(".num_post_loves").html(jQuery.trim(data));
+            data = $.trim(data);
+
+            if(data === "Post liked successfully"){
+
+                trigger_btn.removeAttr("onclick");
+
+                $.ajax({
+
+                    url: "models/get_num_post_likes.php",
+                    type: "get",
+                    data: {post_id},
+                    success: function(data){
+
+                        const btn_html = `
+                            <span class="fa fa-heart"></span> <span class="num_post_loves">${data} Likes</span>
+                        `;
+
+                        trigger_btn.html(btn_html);
+
+                    }
+
+                });
+
+            }
+
+            display_feedback(data);
 
         },
         error: function(){
 
-            display_feedback("Error Refreshing Num Likes");
+            display_feedback("Error liking post. Retry");
 
         }
 
     });
 
 }
-
-function load_num_comment(post_id){
-
-    var request_url = "model/";
-
-    $.ajax({
-
-        url: request_url,
-        type: "post",
-        data: "post_id="+post_id,
-        success: function(data){
-
-            $("#post"+post_id).find(".num_post_comment").html(jQuery.trim(data));
-
-        },
-        error: function(){
-
-            display_feedback("Error Refreshing Num Likes");
-
-        }
-
-    });
-
-
-}
-
-$(document).ready(function() {
-
-    $(".love_post").submit(function(event) {
-
-        event.preventDefault();
-
-        $("#show_loading").slideDown("fast").delay(100);
-
-        var post_id = $(this).find("input[name='post_id']").val();
-
-        if(post_id === ""){
-
-            display_feedback("Error Reacting To Post");
-
-        }else{
-
-            //Do Ajax
-            var form_data = $(this).serialize();
-
-            //Expected Request File
-            var url = "model/";
-
-            $.ajax({
-
-                url: url,
-                type: "post",
-                data: form_data,
-                success: function(data){
-
-                    if(jQuery.trim(data) === "Expected Value"){
-
-                        load_num_loves(post_id);
-
-                    }else{
-
-                        display_feedback(jQuery.trim(data));
-
-                    }
-
-                },
-                error: function(){
-                    
-                    display_feedback("Error Reacting To Post. Retry");
-
-                }
-
-            });
-
-        }
-
-    });
-
-    $(".comment_post").submit(function(event) {
-
-        event.preventDefault();
-
-        $("#show_loading").slideDown("fast").delay(100);
-
-        var post_id = $(this).find("input[name='post_id']").val();
-        var comment = $(this).find("input[name='comment']").val();
-
-        if(post_id === ""){
-
-            display_feedback("Error Reacting To Post");
-
-        }else if(comment === ""){
-
-            display_feedback("Fill In Comment Field");
-
-        }else{
-
-            //Do Ajax
-            var form_data = $(this).serialize();
-
-            //Expected Request File
-            var url = "model/";
-
-            $.ajax({
-
-                url: url,
-                type: "post",
-                data: form_data,
-                success: function(data){
-
-                    if(jQuery.trim(data) === "Expected Value"){
-
-                        load_top_comment(post_id);
-                        load_num_comment(post_id);
-
-                    }else{
-
-                        display_feedback(jQuery.trim(data));
-
-                    }
-
-                },
-                error: function(){
-                    
-                    display_feedback("Error Commenting On Post. Retry");
-
-                }
-
-            });
-
-        }
-
-    });
-
-});

@@ -34,7 +34,7 @@
                                     }
 
                                     ?>
-                                    <div class="row w3-margin-bottom">
+                                    <div class="row w3-margin-bottom" id="fr__<?= $user_details["UserID"] ?>">
                                         <div class="col-md-4">
                                             <img src="<?= $user_details["ProfilePicture"] ?>" class="img-rounded" style="width: 100%; height: 80px"/>
                                         </div>
@@ -42,16 +42,16 @@
                                             <b><?= $user_details["FullName"] ?></b><br/>
                                             <span>@<?= $user_details["Username"] ?></span>
                                             <div class="row">
-                                                <div class="col-xs-6">
+                                                <div class="col-xs-6" type="accept_request">
                                                     <form class="accept_friend_request">
-                                                        <input type="hidden" name="user_id" value="1"/>
-                                                        <input type="submit" value="ACCEPT" class="btn btn-sm btn-success"/>
+                                                        <input type="hidden" name="user_id" value="<?= $user_details["UserID"] ?>"/>
+                                                        <button type="submit" class="btn btn-sm btn-success">ACCEPT</button>
                                                     </form>
                                                 </div>
-                                                <div class="col-xs-6">
+                                                <div class="col-xs-6" type="decline_request">
                                                     <form class="decline_friend_request">
                                                         <input type="hidden" name="user_id" value="1"/>
-                                                        <input type="submit" value="DECLINE" class="btn btn-sm btn-danger"/>
+                                                        <button type="submit" class="btn btn-sm btn-danger">DECLINE</button>
                                                     </form>
                                                 </div>
                                             </div>

@@ -47,7 +47,7 @@
             function int()
             {
                 var w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-                window.location.assign("post.php");
+                window.location.assign("home.php");
             }
             function need()
             {

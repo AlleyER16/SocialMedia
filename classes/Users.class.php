@@ -183,6 +183,20 @@
 
         }
 
+        public function get_num_friend_requests_sent($user_id){
+
+            //sanitizing variables
+            $user_id = $this->SanitizeVariable($user_id);
+
+            //operations
+            $sql = "SELECT COUNT(ID) AS NumFriendRequestsSent FROM ".self::FRIEND_REQUESTS_TABLE." WHERE RequestedBy = ? ORDER BY Timestamp DESC";
+            $prepared_statement = $this->db_object->prepare($sql);
+            $prepared_statement->execute([$user_id]);
+
+            return $prepared_statement->fetchAll()[0]["NumFriendRequestsSent"];
+
+        }
+
         public function get_friend_requests_sent($user_id){
 
             //sanitizing variables
@@ -223,6 +237,20 @@
             $prepared_statement = $this->db_object->prepare($sql);
 
             return $prepared_statement->execute([$new_value, $friend_id]);
+
+        }
+
+        public function get_num_friends($user_id){
+
+            //sanitizing variables
+            $user_id = $this->SanitizeVariable($user_id);
+
+            //operations
+            $sql = "SELECT COUNT(ID) AS NumFriends FROM ".self::FRIENDS_TABLE." WHERE User1 = ? OR User2 = ? AND Status = ?";
+            $prepared_statement = $this->db_object->prepare($sql);
+            $prepared_statement->execute([$user_id, $user_id, 1]);
+
+            return $prepared_statement->fetchAll()[0]["NumFriends"];
 
         }
 
@@ -269,6 +297,34 @@
 
         }
 
+        public function get_num_removed($user_id){
+
+            //sanitizing variables
+            $user_id = $this->SanitizeVariable($user_id);
+
+            //operations
+            $sql = "SELECT COUNT(ID) AS NumRemoved FROM ".self::REMOVED_TABLE." WHERE User = ? OR UserRemoved = ?";
+            $prepared_statement = $this->db_object->prepare($sql);
+            $prepared_statement->execute([$user_id, $user_id]);
+
+            return $prepared_statement->fetchAll()[0]["NumRemoved"];
+
+        }
+
+        public function get_removed($user_id){
+
+            //sanitizing variables
+            $user_id = $this->SanitizeVariable($user_id);
+
+            //operations
+            $sql = "SELECT * FROM ".self::REMOVED_TABLE." WHERE User = ? OR UserRemoved = ?";
+            $prepared_statement = $this->db_object->prepare($sql);
+            $prepared_statement->execute([$user_id, $user_id]);
+
+            return $prepared_statement->fetchAll();
+
+        }
+
         public function add_removed($user_id, $user_removed){
 
             //sanitizing variables
@@ -312,6 +368,45 @@
             $prepared_statement->execute([$search, $user_id, $user_id, $user_id]);
 
             return ($prepared_statement->fetchAll());
+
+        }
+
+        public function get_num_users(){
+
+            //oerations
+            $sql = "SELECT COUNT(UserID) AS NumUsers FROM ".self::USERS_TABLE;
+            $prepared_statement = $this->db_object->prepare($sql);
+            $prepared_statement->execute([]);
+
+            return $prepared_statement->fetchAll()[0]["NumUsers"];
+
+        }
+
+        public function get_users_pagination($division) {
+
+            //operations
+            $num_users = $this->get_num_users();
+
+            $pages = floor($num_users/$division);
+
+            return (($num_users % $division) > 0) ? $pages + 1 : $pages;
+
+        }
+
+        public function get_users($page, $division){
+
+            //sanitizing variables
+            $page = $this->SanitizeVariable($page);
+            $division = $this->SanitizeVariable($division);
+
+            $start = ($page - 1) * $division;
+
+            //oerations
+            $sql = "SELECT * FROM ".self::USERS_TABLE." LIMIT $start, $division";
+            $prepared_statement = $this->db_object->prepare($sql);
+            $prepared_statement->execute([]);
+
+            return $prepared_statement->fetchAll();
 
         }
 

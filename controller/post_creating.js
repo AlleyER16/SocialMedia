@@ -4,7 +4,7 @@ function display_feedback(message){
     $("#show_operation_message").find("#message").html(message);
 
     $("#show_loading").slideUp("fast");
-            
+
     interval = setInterval(function(){
 
         $("#show_operation_message").slideDown("fast").delay(1000);
@@ -18,106 +18,42 @@ function display_feedback(message){
 
 $(document).ready(function() {
 
-    $("#advanced_post").submit(function(event) {
-
-        event.preventDefault();
-
-        $("#show_loading").slideDown("fast").delay(100);
-
-        var post_title = $(this).find("input[name='post_title']").val();
-        var post_body = $(this).find("textarea").val();
-
-        if(post_title === "" || jQuery.trim(post_body) === ""){
-
-            display_feedback("Fill In All Fields");
-
-        }else{
-
-            //Do Ajax
-            var form_data = $(this).serialize();
-
-            //Expected Request File
-            var url = "model/";
-
-            $.ajax({
-
-                url: url,
-                type: "post",
-                data: form_data,
-                success: function(data){
-
-                    if(jQuery.trim(data) === "Expected Value"){
-
-                        window.location = "post.php";
-
-                    }else{
-
-                        display_feedback(jQuery.trim(data));
-
-                    }
-
-                },
-                error: function(){
-                    
-                    display_feedback("Error Creating Post. Retry");
-
-                }
-
-            });
-
-        }
-
-    });
-
     $("#create_post").submit(function(event) {
 
         event.preventDefault();
 
         $("#show_loading").slideDown("fast").delay(100);
 
-        var post_body = $(this).find("textarea").val();
+        var form_data = $(this).serialize();
 
-        if(jQuery.trim(post_body) === ""){
+        $.ajax({
 
-            display_feedback("Fill In All Fields");
+            url: "models/add_post.php",
+            type: "post",
+            data: form_data,
+            success: function(data){
 
-        }else{
+                data = $.trim(data);
 
-            //Do Ajax
-            var form_data = $(this).serialize();
+                if(data === "Post added successfully"){
 
-            //Expected Request File
-            var url = "model/";
+                    window.location.reload();
 
-            $.ajax({
+                }else{
 
-                url: url,
-                type: "post",
-                data: form_data,
-                success: function(data){
-
-                    if(jQuery.trim(data) === "Expected Value"){
-
-                        window.location.reload();
-
-                    }else{
-
-                        display_feedback(jQuery.trim(data));
-
-                    }
-
-                },
-                error: function(){
-                    
-                    display_feedback("Error Creating Post. Retry");
+                    display_feedback(data);
 
                 }
 
-            });
+            },
+            error: function(){
 
-        }
+                display_feedback("Error Creating Post. Retry");
+
+            }
+
+        });
 
     });
 
 });
-
