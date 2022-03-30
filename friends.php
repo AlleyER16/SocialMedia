@@ -2,7 +2,7 @@
 
     require_once "includes/__auth_check.php";
 
-    $__page = $_GET["page"] ?? "fr";
+    $__page = (isset($_GET["page"]) && $_GET["page"] != "") ? $_GET["page"] : "fr";
 
 ?>
 <!DOCTYPE html>

@@ -1,7 +1,5 @@
 <?php
 
-    $__force_redirect = $__force_redirect ?? true;
-
     session_start();
 
     $__user_details = [];

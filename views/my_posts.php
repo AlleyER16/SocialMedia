@@ -18,7 +18,7 @@
             </div>
             <div class="col-md-10 col-sm-10 col-xs-9 w3-padding-top">
                 <span><b><?= $__user_details["FullName"] ?></b> - <span><?= $post["PostTitle"] ?></span></span><br/>
-                <span class="w3-text-black" style="font-size: 12px">12:00pm on Apr 5 2020</span>
+                <span class="w3-text-black" style="font-size: 12px"><?= date("h:i:a", $post["Timestamp"]) ?> on <?= date("d/m/Y", $post["Timestamp"]) ?></span>
             </div>
             <div class="col-md-12 col-sm-12 col-xs-12 w3-margin-top w3-margin-bottom" data-toggle="modal" data-target="#postextra<?php echo $pstid;?>">
                 <p class="text-justify">

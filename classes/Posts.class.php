@@ -1,6 +1,6 @@
 <?php
 
-    require_once (dirname(__DIR__).'/classes/config/Dbh.config.php');
+    require_once (dirname(__FILE__).'/config/Dbh.config.php');
 
     class Posts extends Dbh{
 

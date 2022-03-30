@@ -1,6 +1,6 @@
 <?php
 
-    $__force_redirect = $__force_redirect ?? true;
+    $__force_redirect = (isset($__force_redirect)) ? $__force_redirect : true;
 
     session_start();
 

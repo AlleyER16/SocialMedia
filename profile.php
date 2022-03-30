@@ -2,7 +2,7 @@
 
     require_once "includes/__auth_check.php";
 
-    $__page = $_GET["page"] ?? "posts";
+    $__page = (isset($_GET["page"]) && $_GET["page"] != "") ? $_GET["page"] : "posts";
 
     require_once "classes/Users.class.php";
     require_once "classes/Posts.class.php";
