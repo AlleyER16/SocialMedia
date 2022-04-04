@@ -85,6 +85,7 @@
                                             </td>
                                             <td>
                                                 <a href="user.php?user_id=<?= $user["UserID"] ?>" class="btn btn-success">View</a>
+                                                <button class="btn btn-danger" onclick="delete_user($(this), <?= $user['UserID'] ?>)">Delete</button>
                                             </td>
                                         </tr>
                                         <?php
@@ -127,6 +128,30 @@
         </div>
 
         <?php require_once "includes/bottom_resources.php"; ?>
+
+        <script type="text/javascript">
+            const delete_user = (trigger_btn, user_id) => {
+
+                trigger_btn.html("Deleting...").attr("disabled", "disabled");
+
+                $.ajax({
+                    type: "GET",
+                    data: {user_id},
+                    url: "models/delete_user.php",
+                    success: function(data) {
+                        data = $.trim(data);
+
+                        if(data == "User deleted successfully"){
+                            window.location.reload();
+                        }else{
+                            alert(data);
+                            trigger_btn.removeAttr("disabled").html("Delete");
+                        }
+                    }
+                });
+
+            }
+        </script>
 
     </body>
 </html>
