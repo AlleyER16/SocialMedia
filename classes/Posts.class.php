@@ -96,6 +96,45 @@
 
         }
 
+        public function get_num_posts(){
+
+            //operations
+            $sql = "SELECT COUNT(PostID) AS NumPosts FROM ".self::POSTS_TABLE;
+            $prepared_statement = $this->db_object->prepare($sql);
+            $prepared_statement->execute([]);
+
+            return $prepared_statement->fetchAll()[0]["NumPosts"];
+
+        }
+
+        public function get_posts_pagination($division) {
+
+            //operations
+            $num_posts = $this->get_num_posts();
+
+            $pages = floor($num_posts/$division);
+
+            return (($num_posts % $division) > 0) ? $pages + 1 : $pages;
+
+        }
+
+        public function get_posts($page, $division){
+
+            //sanitizing fields
+            $page = $this->SanitizeVariable($page);
+            $division = $this->SanitizeVariable($division);
+
+            $start = ($page - 1) * $division;
+
+            //operations
+            $sql = "SELECT * FROM ".self::POSTS_TABLE." ORDER BY PostID DESC LIMIT $start, $division";
+            $prepared_statement = $this->db_object->prepare($sql);
+            $prepared_statement->execute([]);
+
+            return $prepared_statement->fetchAll();
+
+        }
+
         public function get_timeline($user_id){
 
             //sanitizing vairiables

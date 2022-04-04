@@ -268,6 +268,20 @@
 
         }
 
+        public function get_chat($user_id){
+
+            //sanitizing variables
+            $user_id = $this->SanitizeVariable($user_id);
+
+            //operations
+            $sql = "SELECT * FROM ".self::FRIENDS_TABLE." WHERE User1 = ? OR User2 = ? ORDER BY LastMessageTimestamp DESC";
+            $prepared_statement = $this->db_object->prepare($sql);
+            $prepared_statement->execute([$user_id, $user_id]);
+
+            return $prepared_statement->fetchAll();
+
+        }
+
         public function friend_exists($friend_id){
 
             //sanitizing variables
