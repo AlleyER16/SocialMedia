@@ -81,11 +81,12 @@
 
                                 foreach($messages as $message){
 
-                                    if($message["MessageTo"] == $__user1_details["UserID"]){
+                                    if($message["MessageFrom"] == $__user1_details["UserID"]){
 
                                         ?>
                                         <div class="row mb-2">
                                             <div class="col-md-10 col-sm-10 col-xs-10">
+                                                <img src="<?= $__user1_details["ProfilePicture"] ?>" style="width: 40px; height: 40px;" class="rounded-circle"/>
                                                 <button class="btn btn-primary"><?= $message["Message"] ?></button>
                                             </div>
                                             <div class="col-md-2 col-sm-2 col-xs-2"></div>
@@ -99,6 +100,7 @@
                                             <div class="col-md-2 col-sm-2 col-xs-2"></div>
                                             <div class="col-md-10 col-sm-10 col-xs-10 text-right">
                                                <button class="btn btn-primary" ><?= $message["Message"] ?></button>
+                                               <img src="<?= $__user2_details["ProfilePicture"] ?>" style="width: 40px; height: 40px;" class="rounded-circle"/>
                                             </div>
                                         </div>
                                         <?php
